@@ -13,7 +13,8 @@ import frontRoutes from "./routes/FrontRoutes.js";
     await mongoose.connect("mongodb://localhost/ecommerce", {
       useNewUrlParser: true,
     	useUnifiedTopology: true,
-    	useCreateIndex: true
+    	useCreateIndex: true,
+			useFindAndModify: false
     });
     console.log("Base de datos conectada");
 		// Una vez conectado me conecto al socket porque este levanta al iniciar datos de la base
@@ -52,6 +53,22 @@ async function getMensajes() {
 	}
 };
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/", frontRoutes);
+app.use("/api/productos", prodRoutes);
+app.use("/api/mensajes", mensRoutes);
+
+app.engine("hbs", handlebars({
+    extname: "hbs",
+    defaultLayout: "layout.hbs"
+  })
+);
+
+app.set("views", "./views");
+app.set("view engine", "hbs");
+
+
 function connectSocket() {
 	io.on("connection", (socket) => {
 		console.log("Nuevo cliente conectado!");
@@ -72,21 +89,6 @@ function connectSocket() {
 		});
 	});
 }
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use("/", frontRoutes);
-app.use("/api/productos", prodRoutes);
-app.use("/api/mensajes", mensRoutes);
-
-app.engine("hbs", handlebars({
-    extname: "hbs",
-    defaultLayout: "layout.hbs"
-  })
-);
-
-app.set("views", "./views");
-app.set("view engine", "hbs");
 
 // Conexion a server con callback avisando de conexion exitosa
 httpServer.listen(PORT, () => { console.log(`Ya me conecte al puerto ${PORT}.`); })
