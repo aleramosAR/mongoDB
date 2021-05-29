@@ -1,0 +1,20 @@
+{
+  "name": "desafio",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Server.js",
+  "scripts": {
+    "start": "nodemon ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.0",
+    "mongoose": "^5.12.11",
+    "node-fetch": "^2.6.1",
+    "socket.io": "^4.0.1"
+  }
+}
